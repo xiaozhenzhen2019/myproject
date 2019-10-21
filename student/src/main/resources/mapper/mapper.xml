@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.my.dao.mappers">
+    <select id="select" resultType="com.my.entities.users">
+select * from users where  uname=#{uname} and  pwd=#{pwd}
+    </select>
+    <resultMap id="student" type="com.my.entities.student">
+     <id column="sno" property="sno"/>
+        <result column="sname" property="sname"/>
+        <result column="sex" property="sex"/>
+        <result column="grade" property="grade"/>
+        <result column="gid" property="gid"/>
+        <association property="gam" javaType="com.my.entities.gam">
+            <id column="id" property="id"/>
+            <result column="gname" property="gname"/>
+        </association>
+    </resultMap>
+    <select id="selectStu" resultMap="student">
+        SELECT * FROM stu s ,gam g WHERE s.gid=g.id
+    </select>
+    <select id="selectgam" resultType="com.my.entities.gam">
+        select * from gam
+    </select>
+    <update id="update">
+        update stu set sname=#{sname},sex=#{sex},grade=#{grade},gid=#{gid} where sno=#{sno}
+    </update>
+    <insert id="insert">
+        insert into stu values(null,#{sname},#{sex},#{grade},#{gid})
+    </insert>
+    <delete id="delete">
+        delete from stu where sno=#{sno}
+    </delete>
+    <select id="selectsno" resultType="com.my.entities.student">
+        select * from stu where sno=#{sno}
+    </select>
+</mapper>
