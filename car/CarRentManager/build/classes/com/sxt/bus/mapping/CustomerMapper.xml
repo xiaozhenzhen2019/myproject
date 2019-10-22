@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sxt.bus.mapper.CustomerMapper" >
+  <resultMap id="BaseResultMap" type="com.sxt.bus.domain.Customer" >
+    <id column="identity" property="identity" jdbcType="VARCHAR" />
+    <result column="custname" property="custname" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" jdbcType="INTEGER" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="career" property="career" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    identity, custname, sex, address, phone, career
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bus_customers
+    where identity = #{identity,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from bus_customers
+    where identity = #{identity,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.sxt.bus.domain.Customer" >
+    insert into bus_customers (identity, custname, sex, 
+      address, phone, career
+      )
+    values (#{identity,jdbcType=VARCHAR}, #{custname,jdbcType=VARCHAR}, #{sex,jdbcType=INTEGER}, 
+      #{address,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{career,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.sxt.bus.domain.Customer" >
+    insert into bus_customers
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="identity != null" >
+        identity,
+      </if>
+      <if test="custname != null" >
+        custname,
+      </if>
+      <if test="sex != null" >
+        sex,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="phone != null" >
+        phone,
+      </if>
+      <if test="career != null" >
+        career,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="identity != null" >
+        #{identity,jdbcType=VARCHAR},
+      </if>
+      <if test="custname != null" >
+        #{custname,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="career != null" >
+        #{career,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sxt.bus.domain.Customer" >
+    update bus_customers
+    <set >
+      <if test="custname != null" >
+        custname = #{custname,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        sex = #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="career != null" >
+        career = #{career,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where identity = #{identity,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sxt.bus.domain.Customer" >
+    update bus_customers
+    set custname = #{custname,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=INTEGER},
+      address = #{address,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      career = #{career,jdbcType=VARCHAR}
+    where identity = #{identity,jdbcType=VARCHAR}
+  </update>
+  <select id="queryAllCustomer" resultMap="BaseResultMap" parameterType="com.sxt.bus.domain.Customer" >
+    select 
+    <include refid="Base_Column_List" />
+    from bus_customers
+    <where>
+    	<if test="identity!=null">
+    		and identity like concat("%",#{identity},"%")
+    	</if>
+    	<if test="custname!=null">
+    		and custname like concat("%",#{custname},"%")
+    	</if>
+    	<if test="address!=null">
+    		and address like concat("%",#{address},"%")
+    	</if>
+    	<if test="phone!=null">
+    		and phone like concat("%",#{phone},"%")
+    	</if>
+    	<if test="career!=null">
+    		and career like concat("%",#{career},"%")
+    	</if>
+    </where>
+  </select>
+  
+  
+</mapper>

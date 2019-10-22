@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sxt.sys.mapper.MenuMapper">
+	<resultMap id="BaseResultMap" type="com.sxt.sys.domain.Menu">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="pid" property="pid" jdbcType="INTEGER" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="href" property="href" jdbcType="VARCHAR" />
+		<result column="open" property="open" jdbcType="INTEGER" />
+		<result column="parent" property="parent" jdbcType="INTEGER" />
+		<result column="target" property="target" jdbcType="VARCHAR" />
+		<result column="icon" property="icon" jdbcType="VARCHAR" />
+		<result column="tabicon" property="tabicon" jdbcType="VARCHAR" />
+		<result column="available" property="available" jdbcType="INTEGER" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, pid, name, href, open, parent, target, icon, tabicon,
+		available
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from sys_menus
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from
+		sys_menus
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.sxt.sys.domain.Menu">
+		insert into sys_menus (id,
+		pid, name,
+		href, open, parent,
+		target, icon, tabicon,
+		available)
+		values
+		(#{id,jdbcType=INTEGER}, #{pid,jdbcType=INTEGER},
+		#{name,jdbcType=VARCHAR},
+		#{href,jdbcType=VARCHAR},
+		#{open,jdbcType=INTEGER}, #{parent,jdbcType=INTEGER},
+		#{target,jdbcType=VARCHAR}, #{icon,jdbcType=VARCHAR},
+		#{tabicon,jdbcType=VARCHAR},
+		#{available,jdbcType=INTEGER})
+	</insert>
+	<insert id="insertSelective" parameterType="com.sxt.sys.domain.Menu">
+		insert into sys_menus
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="pid != null">
+				pid,
+			</if>
+			<if test="name != null">
+				name,
+			</if>
+			<if test="href != null">
+				href,
+			</if>
+			<if test="open != null">
+				open,
+			</if>
+			<if test="parent != null">
+				parent,
+			</if>
+			<if test="target != null">
+				target,
+			</if>
+			<if test="icon != null">
+				icon,
+			</if>
+			<if test="tabicon != null">
+				tabicon,
+			</if>
+			<if test="available != null">
+				available,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="pid != null">
+				#{pid,jdbcType=INTEGER},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="href != null">
+				#{href,jdbcType=VARCHAR},
+			</if>
+			<if test="open != null">
+				#{open,jdbcType=INTEGER},
+			</if>
+			<if test="parent != null">
+				#{parent,jdbcType=INTEGER},
+			</if>
+			<if test="target != null">
+				#{target,jdbcType=VARCHAR},
+			</if>
+			<if test="icon != null">
+				#{icon,jdbcType=VARCHAR},
+			</if>
+			<if test="tabicon != null">
+				#{tabicon,jdbcType=VARCHAR},
+			</if>
+			<if test="available != null">
+				#{available,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.sxt.sys.domain.Menu">
+		update sys_menus
+		<set>
+			<if test="pid != null">
+				pid = #{pid,jdbcType=INTEGER},
+			</if>
+			<if test="name != null">
+				name = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="href != null">
+				href = #{href,jdbcType=VARCHAR},
+			</if>
+			<if test="open != null">
+				open = #{open,jdbcType=INTEGER},
+			</if>
+			<if test="parent != null">
+				parent = #{parent,jdbcType=INTEGER},
+			</if>
+			<if test="target != null">
+				target = #{target,jdbcType=VARCHAR},
+			</if>
+			<if test="icon != null">
+				icon = #{icon,jdbcType=VARCHAR},
+			</if>
+			<if test="tabicon != null">
+				tabicon = #{tabicon,jdbcType=VARCHAR},
+			</if>
+			<if test="available != null">
+				available = #{available,jdbcType=INTEGER},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.sxt.sys.domain.Menu">
+		update sys_menus
+		set pid = #{pid,jdbcType=INTEGER},
+		name = #{name,jdbcType=VARCHAR},
+		href = #{href,jdbcType=VARCHAR},
+		open = #{open,jdbcType=INTEGER},
+		parent = #{parent,jdbcType=INTEGER},
+		target =
+		#{target,jdbcType=VARCHAR},
+		icon = #{icon,jdbcType=VARCHAR},
+		tabicon =
+		#{tabicon,jdbcType=VARCHAR},
+		available = #{available,jdbcType=INTEGER}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+
+	<!-- 菜单可用的菜单 -->
+	<select id="queryAvailableMenus" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from sys_menus
+		where available=1
+	</select>
+
+	<!-- 菜单可用的菜单 -->
+	<select id="queryAllMenus" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from sys_menus
+	</select>
+	<!-- 菜单可用的菜单 -->
+	<select id="queryAllMenusUseIdAndPid" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from sys_menus
+		<where>
+			id=#{value} or pid=#{value}
+		</where>
+	</select>
+
+	<!-- 根据角色编号查询菜单 -->
+	<select id="queryMenusByRoleId" resultMap="BaseResultMap">
+		select
+		t1.*
+		from
+		sys_menus t1 inner join sys_role_menu t2 on(t1.id=t2.mid)
+		where
+		t2.rid=#{value}
+	</select>
+	<!-- 根据用户编号查询菜单 -->
+	<select id="queryMenusByUserId" resultMap="BaseResultMap">
+		select DISTINCT t1.*
+		from sys_menus t1 inner join sys_role_menu t2 inner join sys_role_user
+		t3 on(t1.id=t2.mid and t2.rid=t3.rid)
+		where t3.uid=#{value} and t1.available=1
+	</select>
+</mapper>

@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sxt.bus.mapper.RentMapper" >
+  <resultMap id="BaseResultMap" type="com.sxt.bus.domain.Rent" >
+    <id column="rentid" property="rentid" jdbcType="VARCHAR" />
+    <result column="price" property="price" jdbcType="DOUBLE" />
+    <result column="begindate" property="begindate" jdbcType="TIMESTAMP" />
+    <result column="returndate" property="returndate" jdbcType="TIMESTAMP" />
+    <result column="rentflag" property="rentflag" jdbcType="INTEGER" />
+    <result column="identity" property="identity" jdbcType="VARCHAR" />
+    <result column="carnumber" property="carnumber" jdbcType="VARCHAR" />
+    <result column="opername" property="opername" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    rentid, price, begindate, returndate, rentflag, identity, carnumber, opername
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bus_rents
+    where rentid = #{rentid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from bus_rents
+    where rentid = #{rentid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.sxt.bus.domain.Rent" >
+    insert into bus_rents (rentid, price, begindate, 
+      returndate, rentflag, identity, 
+      carnumber, opername)
+    values (#{rentid,jdbcType=VARCHAR}, #{price,jdbcType=DOUBLE}, #{begindate,jdbcType=TIMESTAMP}, 
+      #{returndate,jdbcType=TIMESTAMP}, #{rentflag,jdbcType=INTEGER}, #{identity,jdbcType=VARCHAR}, 
+      #{carnumber,jdbcType=VARCHAR}, #{opername,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sxt.bus.domain.Rent" >
+    insert into bus_rents
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="rentid != null" >
+        rentid,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="begindate != null" >
+        begindate,
+      </if>
+      <if test="returndate != null" >
+        returndate,
+      </if>
+      <if test="rentflag != null" >
+        rentflag,
+      </if>
+      <if test="identity != null" >
+        identity,
+      </if>
+      <if test="carnumber != null" >
+        carnumber,
+      </if>
+      <if test="opername != null" >
+        opername,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="rentid != null" >
+        #{rentid,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=DOUBLE},
+      </if>
+      <if test="begindate != null" >
+        #{begindate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="returndate != null" >
+        #{returndate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="rentflag != null" >
+        #{rentflag,jdbcType=INTEGER},
+      </if>
+      <if test="identity != null" >
+        #{identity,jdbcType=VARCHAR},
+      </if>
+      <if test="carnumber != null" >
+        #{carnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="opername != null" >
+        #{opername,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sxt.bus.domain.Rent" >
+    update bus_rents
+    <set >
+      <if test="price != null" >
+        price = #{price,jdbcType=DOUBLE},
+      </if>
+      <if test="begindate != null" >
+        begindate = #{begindate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="returndate != null" >
+        returndate = #{returndate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="rentflag != null" >
+        rentflag = #{rentflag,jdbcType=INTEGER},
+      </if>
+      <if test="identity != null" >
+        identity = #{identity,jdbcType=VARCHAR},
+      </if>
+      <if test="carnumber != null" >
+        carnumber = #{carnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="opername != null" >
+        opername = #{opername,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where rentid = #{rentid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sxt.bus.domain.Rent" >
+    update bus_rents
+    set price = #{price,jdbcType=DOUBLE},
+      begindate = #{begindate,jdbcType=TIMESTAMP},
+      returndate = #{returndate,jdbcType=TIMESTAMP},
+      rentflag = #{rentflag,jdbcType=INTEGER},
+      identity = #{identity,jdbcType=VARCHAR},
+      carnumber = #{carnumber,jdbcType=VARCHAR},
+      opername = #{opername,jdbcType=VARCHAR}
+    where rentid = #{rentid,jdbcType=VARCHAR}
+  </update>
+  <!-- 全查询 -->
+  <select id="queryAllRents" resultMap="BaseResultMap" parameterType="com.sxt.bus.domain.Rent" >
+    select 
+    <include refid="Base_Column_List" />
+    from bus_rents
+   <where>
+   	<if test="rentid!=null">
+   		and rentid like concat("%",#{rentid},"%")
+   	</if>
+   	<if test="identity!=null">
+   		and identity like concat("%",#{identity},"%")
+   	</if>
+   	<if test="carnumber!=null">
+   		and carnumber like concat("%",#{carnumber},"%")
+   	</if>
+   	<if test="opername!=null">
+   		and opername like concat("%",#{opername},"%")
+   	</if>
+   	<if test="rentflag!=null">
+   		and rentflag =#{rentflag}
+   	</if>
+   	<if test="begindate!=null">
+   		and begindate >=#{begindate}
+   	</if>
+   	<if test="returndate!=null">
+   		and returndate <![CDATA[<=]]>#{returndate}
+   	</if>
+   </where>
+  </select>
+</mapper>

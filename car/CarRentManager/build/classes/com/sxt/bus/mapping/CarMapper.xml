@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sxt.bus.mapper.CarMapper" >
+  <resultMap id="BaseResultMap" type="com.sxt.bus.domain.Car" >
+    <id column="carnumber" property="carnumber" jdbcType="VARCHAR" />
+    <result column="cartype" property="cartype" jdbcType="VARCHAR" />
+    <result column="color" property="color" jdbcType="VARCHAR" />
+    <result column="price" property="price" jdbcType="DOUBLE" />
+    <result column="rentprice" property="rentprice" jdbcType="DOUBLE" />
+    <result column="deposit" property="deposit" jdbcType="DOUBLE" />
+    <result column="isrenting" property="isrenting" jdbcType="INTEGER" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="carimg" property="carimg" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    carnumber, cartype, color, price, rentprice, deposit, isrenting, description, carimg
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bus_cars
+    where carnumber = #{carnumber,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from bus_cars
+    where carnumber = #{carnumber,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.sxt.bus.domain.Car" >
+    insert into bus_cars (carnumber, cartype, color, 
+      price, rentprice, deposit, 
+      isrenting, description, carimg
+      )
+    values (#{carnumber,jdbcType=VARCHAR}, #{cartype,jdbcType=VARCHAR}, #{color,jdbcType=VARCHAR}, 
+      #{price,jdbcType=DOUBLE}, #{rentprice,jdbcType=DOUBLE}, #{deposit,jdbcType=DOUBLE}, 
+      #{isrenting,jdbcType=INTEGER}, #{description,jdbcType=VARCHAR}, #{carimg,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.sxt.bus.domain.Car" >
+    insert into bus_cars
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="carnumber != null" >
+        carnumber,
+      </if>
+      <if test="cartype != null" >
+        cartype,
+      </if>
+      <if test="color != null" >
+        color,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="rentprice != null" >
+        rentprice,
+      </if>
+      <if test="deposit != null" >
+        deposit,
+      </if>
+      <if test="isrenting != null" >
+        isrenting,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+      <if test="carimg != null" >
+        carimg,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="carnumber != null" >
+        #{carnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="cartype != null" >
+        #{cartype,jdbcType=VARCHAR},
+      </if>
+      <if test="color != null" >
+        #{color,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=DOUBLE},
+      </if>
+      <if test="rentprice != null" >
+        #{rentprice,jdbcType=DOUBLE},
+      </if>
+      <if test="deposit != null" >
+        #{deposit,jdbcType=DOUBLE},
+      </if>
+      <if test="isrenting != null" >
+        #{isrenting,jdbcType=INTEGER},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="carimg != null" >
+        #{carimg,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sxt.bus.domain.Car" >
+    update bus_cars
+    <set >
+      <if test="cartype != null" >
+        cartype = #{cartype,jdbcType=VARCHAR},
+      </if>
+      <if test="color != null" >
+        color = #{color,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=DOUBLE},
+      </if>
+      <if test="rentprice != null" >
+        rentprice = #{rentprice,jdbcType=DOUBLE},
+      </if>
+      <if test="deposit != null" >
+        deposit = #{deposit,jdbcType=DOUBLE},
+      </if>
+      <if test="isrenting != null" >
+        isrenting = #{isrenting,jdbcType=INTEGER},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="carimg != null" >
+        carimg = #{carimg,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where carnumber = #{carnumber,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sxt.bus.domain.Car" >
+    update bus_cars
+    set cartype = #{cartype,jdbcType=VARCHAR},
+      color = #{color,jdbcType=VARCHAR},
+      price = #{price,jdbcType=DOUBLE},
+      rentprice = #{rentprice,jdbcType=DOUBLE},
+      deposit = #{deposit,jdbcType=DOUBLE},
+      isrenting = #{isrenting,jdbcType=INTEGER},
+      description = #{description,jdbcType=VARCHAR},
+      carimg = #{carimg,jdbcType=VARCHAR}
+    where carnumber = #{carnumber,jdbcType=VARCHAR}
+  </update>
+  <!-- 全查询 -->
+  <select id="queryAllCars" resultMap="BaseResultMap" parameterType="com.sxt.bus.domain.Car" >
+    select 
+    <include refid="Base_Column_List" />
+    from bus_cars
+    <where>
+    	<if test="carnumber!=null">
+    		and carnumber like concat("%",#{carnumber},"%")
+    	</if>
+    	<if test="cartype!=null">
+    		and cartype like concat("%",#{cartype},"%")
+    	</if>
+    	<if test="color!=null">
+    		and color like concat("%",#{color},"%")
+    	</if>
+    	<if test="description!=null">
+    		and description like concat("%",#{description},"%")
+    	</if>
+    	<if test="isrenting!=null">
+    		and isrenting = #{isrenting}
+    	</if>
+    </where>
+  </select>
+</mapper>
